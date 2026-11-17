@@ -1,0 +1,196 @@
+---
+import FutureLink from "./FutureLink.astro";
+import { groups, productCatalogs, promoBrands } from "../data/site";
+
+// Callouts: anchor on the node -> numbered balloon. Balloons follow the anchors' order, so no leader crosses another.
+const callouts: Record<number, { from: [number, number]; to: [number, number] }> = {
+  7: { from: [78, 211], to: [56, 40] },
+  1: { from: [158, 238], to: [120, 40] },
+  4: { from: [180, 194], to: [184, 40] },
+  3: { from: [228, 204], to: [248, 40] },
+  5: { from: [281, 222], to: [312, 40] },
+  8: { from: [520, 188], to: [520, 40] },
+  6: { from: [83, 262], to: [60, 352] },
+  2: { from: [180, 292], to: [180, 352] },
+};
+const order = [7, 1, 4, 3, 5, 8, 6, 2];
+const R = 16;
+const edge = (c: { from: [number, number]; to: [number, number] }) => {
+  const dx = c.from[0] - c.to[0], dy = c.from[1] - c.to[1];
+  const d = Math.hypot(dx, dy) || 1;
+  return [Math.round((c.to[0] + (dx / d) * R) * 10) / 10, Math.round((c.to[1] + (dy / d) * R) * 10) / 10];
+};
+---
+<section id="catalog" class="section catalog" aria-labelledby="catalog-title" data-rec="W-R003" data-catalog>
+  <div class="container">
+    <div class="section__head catalog__head">
+      <h2 id="catalog-title">Каталог за вузлами авто</h2>
+      <p class="section__lede">Вісім груп запчастин: від фільтрів до кузова. Оберіть вузол або надішліть VIN, і менеджер знайде точну деталь.</p>
+    </div>
+
+    <div class="catalog__grid">
+      <figure class="schema" data-reveal>
+        <svg class="schema__svg" viewBox="0 0 720 372" role="img" aria-label="Схема: 8 груп каталогу за вузлами авто" width="720" height="372">
+          <line class="schema__ground" x1="20" y1="318" x2="700" y2="318" />
+          <path class="schema__body zone" data-zone="8" d="M70 270 L62 232 Q64 210 96 202 L268 184 L352 124 Q360 118 372 118 L506 118 Q518 118 526 126 L604 176 L660 186 Q674 190 676 204 L678 258 Q678 270 664 272 L598 272 A58 58 0 0 0 482 272 L238 272 A58 58 0 0 0 122 272 Z" />
+          <path class="schema__glass" d="M288 182 L358 132 L432 132 L432 182 Z M444 132 L500 132 Q508 132 514 138 L566 178 L444 180 Z" />
+          <path class="zone zone--door" data-zone="8" d="M438 132 V268 M444 188 H590 L594 262 H444" />
+          <circle class="schema__tyre" cx="180" cy="272" r="46" />
+          <circle class="schema__tyre" cx="540" cy="272" r="46" />
+          <g class="zone" data-zone="2">
+            <circle cx="180" cy="272" r="20" /><circle cx="540" cy="272" r="20" />
+            <path d="M160 262 A22 22 0 0 1 172 251 M520 262 A22 22 0 0 1 532 251" />
+          </g>
+          <path class="zone" data-zone="7" d="M64 214 L90 209 L92 222 L66 226 Z" />
+          <path class="zone" data-zone="6" d="M74 234 H88 V262 H74 Z M79 238 V258 M83 238 V258" />
+          <path class="zone" data-zone="1" d="M150 238 H166 V258 Q166 262 162 262 H154 Q150 262 150 258 Z M150 244 H166" />
+          <path class="zone" data-zone="4" d="M180 194 V200 L187 203 L173 208 L187 213 L173 218 L187 223 L180 226 M540 194 V200 L547 203 L533 208 L547 213 L533 218 L547 223 L540 226" />
+          <path class="zone" data-zone="3" d="M200 210 H256 V216 H262 V246 H256 V256 H200 Z M212 210 V204 M228 210 V204 M244 210 V204" />
+          <path class="zone" data-zone="3" d="M228 256 V270 Q228 280 238 280 H486 M594 274 H636 A6 6 0 0 1 636 286 H594 A6 6 0 0 1 594 274 Z M642 280 H676" />
+          <path class="zone" data-zone="5" d="M262 220 L300 228 V254 L262 262 Z" />
+
+          {order.map((n, i) => {
+            const c = callouts[n];
+            const [ex, ey] = edge(c);
+            return (
+              <g class="callout" data-zone={n} style={`--i:${i}`}>
+                <line class="callout__lead" x1={c.from[0]} y1={c.from[1]} x2={ex} y2={ey} />
+                <circle class="callout__dot" cx={c.from[0]} cy={c.from[1]} r="3" />
+                <g class="callout__ball">
+                  <circle cx={c.to[0]} cy={c.to[1]} r={R} />
+                  <text x={c.to[0]} y={c.to[1]} dy="0.35em" text-anchor="middle">{n}</text>
+                </g>
+              </g>
+            );
+          })}
+        </svg>
+        <figcaption class="schema__cap">Номер на схемі відповідає групі каталогу.</figcaption>
+      </figure>
+
+      <ol class="index" aria-label="Групи каталогу">
+        {groups.map((g) => (
+          <li class="index__item" data-group={g.n}>
+            <FutureLink class="index__link">
+              <span class="index__n figure" aria-hidden="true">{g.n}</span>
+              <span class="index__name">{g.name}</span>
+            </FutureLink>
+          </li>
+        ))}
+      </ol>
+    </div>
+
+    <div class="catalog__more">
+      <div class="catalog__row">
+        <h3 class="catalog__sub">Товарні каталоги</h3>
+        <ul class="wordlist">
+          {productCatalogs.map((p) => <li><FutureLink class="wordlist__item">{p}</FutureLink></li>)}
+        </ul>
+      </div>
+      <div class="catalog__row catalog__row--brands">
+        <h3 class="catalog__sub">Бренди</h3>
+        <ul class="brands">
+          {promoBrands.map((b) => <li><FutureLink class="brands__item">{b}</FutureLink></li>)}
+          <li><FutureLink class="brands__item brands__item--all">Усі бренди</FutureLink></li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</section>
+
+<style>
+  .catalog__head { grid-template-columns: minmax(0, 1fr); }
+  .catalog__grid { display: grid; gap: var(--space-xl); }
+
+  .schema { margin: 0; display: grid; gap: var(--space-sm); }
+  .schema__svg { width: 100%; height: auto; overflow: visible; }
+  .schema__svg { --sw: 1.5; }
+  .schema__ground { stroke: var(--color-rule); stroke-width: var(--sw); }
+  .schema__body { fill: var(--color-panel); stroke: var(--color-text); stroke-width: var(--sw); stroke-linejoin: round; }
+  .schema__glass { fill: none; stroke: var(--color-line-ui); stroke-width: var(--sw); }
+  .schema__tyre { fill: var(--color-bg); stroke: var(--color-text); stroke-width: var(--sw); }
+  .zone { fill: none; stroke: var(--color-text-2); stroke-width: var(--sw); stroke-linecap: round; stroke-linejoin: round; transition: stroke var(--dur-short) var(--ease-out), opacity var(--dur-short) var(--ease-out); }
+  .schema__body.zone { fill: var(--color-panel); stroke: var(--color-text); }
+  .zone--door { stroke-dasharray: 4 4; stroke-linecap: butt; }
+  .zone :is(circle, path) { stroke: inherit; }
+  .callout__lead { fill: none; stroke: var(--color-brand); stroke-width: var(--sw); }
+  .callout__dot { fill: var(--color-brand); }
+  .callout__ball circle { fill: var(--color-bg); stroke: var(--color-brand); stroke-width: var(--sw); }
+  .callout__ball text { fill: var(--color-text); font-family: var(--font-display); font-weight: var(--weight-bold); font-size: 17px; }
+  .callout__ball { transform-box: fill-box; transform-origin: center; transition: transform var(--dur-short) var(--ease-out); }
+  .callout { transition: opacity var(--dur-short) var(--ease-out); }
+  .schema__cap { font-size: var(--text-small); color: var(--color-text-2); }
+
+  /* Motion 3: a group and its zone light up together; the rest steps back. */
+  .catalog.has-active .zone:not(.is-on):not(.schema__body), .catalog.has-active .callout:not(.is-on) { opacity: 0.45; }
+  .zone.is-on { stroke: var(--color-brand); }
+  .schema__body.zone.is-on { stroke: var(--color-brand); }
+  .callout.is-on .callout__ball { transform: scale(1.15); }
+  .callout.is-on .callout__ball circle { fill: var(--color-brand); }
+  .callout.is-on .callout__ball text { fill: var(--color-bg); }
+
+  /* Motion 4: callouts are drawn once when the schema first comes into view (desktop only). */
+  @media (prefers-reduced-motion: no-preference) and (min-width: 48rem) {
+    :global(.js) .schema .callout { clip-path: inset(0 0 0 0); transition: clip-path 360ms var(--ease-out) calc(var(--i) * 60ms), opacity var(--dur-short) var(--ease-out); }
+    :global(.js) .schema:not(.is-visible) .callout { clip-path: inset(0 0 100% 0); }
+  }
+
+  .index { display: grid; counter-reset: none; border-top: var(--hairline) solid var(--color-rule); }
+  .index__item { border-bottom: var(--hairline) solid var(--color-rule); }
+  .index :global(.index__link) {
+    display: grid; grid-template-columns: 2.5rem minmax(0, 1fr); align-items: baseline; gap: var(--space-sm);
+    width: 100%; min-height: 56px; padding-block: var(--space-sm);
+    text-decoration: none;
+    transition: color var(--dur-short) var(--ease-out);
+  }
+  .index__n { color: var(--color-brand); font-size: var(--text-title); line-height: 1; }
+  .index__name {
+    font-family: var(--font-display); font-weight: var(--weight-bold); font-size: var(--text-title); line-height: 1.15;
+    text-decoration: underline dashed; text-decoration-color: var(--color-line-ui); text-decoration-thickness: 1px; text-underline-offset: 0.22em;
+  }
+  .index__item.is-on :global(.index__link), .index :global(.index__link:hover) { color: var(--color-accent); }
+
+  .catalog__more { display: grid; gap: var(--space-xl); margin-top: var(--space-3xl); padding-top: var(--space-xl); border-top: 2px solid var(--color-text); }
+  .catalog__row { display: grid; gap: var(--space-md); }
+  .catalog__sub { font-family: var(--font-body); font-size: var(--text-body); font-weight: var(--weight-bold); color: var(--color-text-2); }
+  .wordlist { display: flex; flex-wrap: wrap; gap: var(--space-xs) var(--space-lg); }
+  .wordlist :global(.wordlist__item) { font-family: var(--font-display); font-weight: var(--weight-bold); font-size: var(--text-title); line-height: 1.3; }
+  .wordlist :global(.wordlist__item:hover) { color: var(--color-accent); }
+  .brands { display: flex; flex-wrap: wrap; gap: var(--space-xs) var(--space-lg); }
+  .brands :global(.brands__item) { min-height: var(--tap); font-weight: var(--weight-bold); }
+  .brands :global(.brands__item:hover) { color: var(--color-accent); }
+  .brands :global(.brands__item--all) { color: var(--color-accent); }
+
+  @media (min-width: 64rem) {
+    .catalog__head { grid-template-columns: 7fr 5fr; align-items: end; column-gap: var(--gap-columns); }
+    .catalog__grid { grid-template-columns: minmax(0, 7fr) minmax(0, 5fr); gap: var(--space-2xl); align-items: center; }
+    .catalog__row { grid-template-columns: minmax(0, 2fr) minmax(0, 10fr); align-items: baseline; gap: var(--gap-columns); }
+  }
+  @media (max-width: 47.99rem) {
+    .schema__svg { margin-inline: calc(var(--space-xs) * -1); width: calc(100% + var(--space-md)); max-width: none; }
+  }
+</style>
+
+<script>
+  // Schema <-> index link: hover, focus or tap on a group lights its zone and callout, and the other way round.
+  const root = document.querySelector<HTMLElement>("[data-catalog]");
+  if (root) {
+    const items = Array.from(root.querySelectorAll<HTMLElement>("[data-group]"));
+    const parts = Array.from(root.querySelectorAll<SVGElement>(".schema [data-zone]"));
+    const set = (n: string | null) => {
+      root.classList.toggle("has-active", n !== null);
+      items.forEach((el) => el.classList.toggle("is-on", el.dataset.group === n));
+      parts.forEach((el) => el.classList.toggle("is-on", el.getAttribute("data-zone") === n));
+    };
+    items.forEach((el) => {
+      el.addEventListener("pointerenter", () => set(el.dataset.group || null));
+      el.addEventListener("pointerleave", () => set(null));
+      el.addEventListener("focusin", () => set(el.dataset.group || null));
+      el.addEventListener("focusout", () => set(null));
+    });
+    parts.forEach((el) => {
+      if (el.classList.contains("schema__body")) return;
+      el.addEventListener("pointerenter", () => set(el.getAttribute("data-zone")));
+      el.addEventListener("pointerleave", () => set(null));
+    });
+  }
+</script>

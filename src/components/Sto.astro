@@ -1,0 +1,96 @@
+---
+import FutureLink from "./FutureLink.astro";
+import { phones, stoWorks, stores } from "../data/site";
+const bandery = stores[0];
+---
+<section id="sto" class="sto on-dark" aria-labelledby="sto-title" data-rec="W-R007">
+  <div class="container sto__grid">
+    <div class="sto__lead">
+      <h2 id="sto-title">СТО на Бандери, 30</h2>
+      <p class="sto__thesis">Купили деталь у DsvAvto, встановимо тут же, на власному СТО.</p>
+
+      <div class="sto__book">
+        <p class="sto__book-label">Запис на СТО</p>
+        <ul class="sto__phones">
+          {phones.sto.map((p) => (
+            <li><a class="sto__phone figure" href={p.href}>{p.label}</a></li>
+          ))}
+        </ul>
+      </div>
+
+      <p class="sto__addr">
+        пр. Степана Бандери, 30, магазин «Автозапчастини», 2 поверх.
+        <a class="link sto__route" href={bandery.map} target="_blank" rel="noopener">Прокласти маршрут<span class="visually-hidden"> (Google Maps, нова вкладка)</span></a>
+      </p>
+    </div>
+
+    <div class="sto__card">
+      <h3 class="sto__card-title">Що робимо</h3>
+      <ol class="works">
+        {stoWorks.map((w, i) => (
+          <li class="works__item"><span class="works__n figure" aria-hidden="true">{String(i + 1).padStart(2, "0")}</span><span>{w}</span></li>
+        ))}
+      </ol>
+
+      <dl class="terms-sto">
+        <div class="terms-sto__row">
+          <dt>Кошторис</dt>
+          <dd>Узгоджуємо до початку робіт.</dd>
+        </div>
+        <div class="terms-sto__row">
+          <dt>Гарантія на деталі</dt>
+          <dd>Діє, коли деталь встановлено на нашому СТО із замовленням-нарядом.</dd>
+        </div>
+      </dl>
+      <FutureLink class="sto__more">Детальніше про СТО</FutureLink>
+    </div>
+  </div>
+</section>
+
+<style>
+  .sto {
+    background: var(--color-dark); color: var(--color-on-dark);
+    padding-block: var(--section-gap);
+  }
+  .sto h2, .sto h3 { color: var(--color-on-dark); text-wrap: balance; }
+  .sto__grid { display: grid; gap: var(--space-2xl); }
+  .sto__lead { display: grid; gap: var(--space-lg); align-content: start; }
+  .sto__thesis { font-family: var(--font-display); font-weight: var(--weight-bold); font-size: var(--text-title); line-height: 1.2; max-width: 22ch; color: var(--color-on-dark); }
+  .sto__book { display: grid; gap: var(--space-xs); padding-top: var(--space-md); border-top: var(--hairline) solid var(--color-rule-dark); }
+  .sto__book-label { color: var(--color-on-dark-2); }
+  .sto__phones { display: grid; gap: var(--space-2xs); }
+  .sto__phone {
+    display: inline-block; min-height: var(--tap);
+    font-size: var(--text-section); line-height: 1.1; text-decoration: none; white-space: nowrap;
+    color: var(--color-on-dark);
+    transition: color var(--dur-short) var(--ease-out);
+  }
+  .sto__phone:hover { color: var(--color-brand); }
+  .sto__addr { color: var(--color-on-dark-2); max-width: 40ch; }
+  .sto__route { display: inline-block; margin-top: var(--space-xs); color: var(--color-on-dark); font-weight: var(--weight-bold); }
+
+  .sto__card { display: grid; gap: var(--space-lg); align-content: start; }
+  .sto__card-title { font-family: var(--font-body); font-size: var(--text-body); font-weight: var(--weight-bold); color: var(--color-on-dark-2); }
+  .works { display: grid; grid-template-columns: minmax(0, 1fr); border-top: var(--hairline) solid var(--color-rule-dark); }
+  .works__item {
+    display: grid; grid-template-columns: 2.25rem minmax(0, 1fr); align-items: baseline; gap: var(--space-sm);
+    padding-block: var(--space-sm);
+    border-bottom: var(--hairline) solid var(--color-rule-dark);
+  }
+  .works__n { color: var(--color-on-dark-2); font-size: var(--text-small); }
+  .terms-sto { display: grid; gap: var(--space-md); }
+  .terms-sto__row { display: grid; gap: var(--space-2xs); padding-left: var(--space-md); border-left: 2px solid var(--color-brand); }
+  .terms-sto dt { font-weight: var(--weight-bold); }
+  .terms-sto dd { color: var(--color-on-dark-2); }
+  .sto :global(.sto__more) { justify-self: start; min-height: var(--tap); color: var(--color-on-dark); text-decoration-color: var(--color-on-dark-2); }
+  .sto :global(.future-link__note) { background: var(--color-bg); color: var(--color-text); }
+
+  @media (min-width: 48rem) {
+    .works { grid-template-columns: repeat(2, minmax(0, 1fr)); column-gap: var(--gap-columns); }
+    .terms-sto { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: var(--gap-columns); }
+  }
+  @media (min-width: 64rem) {
+    .sto__grid { grid-template-columns: minmax(0, 5fr) minmax(0, 7fr); gap: var(--space-3xl); }
+    .sto__lead { position: sticky; top: calc(var(--header-h) + var(--space-xl)); align-self: start; }
+  }
+</style>

@@ -1,0 +1,88 @@
+---
+import FutureLink from "./FutureLink.astro";
+import { emails, phones, socials, legal, telegram } from "../data/site";
+const future = ["Про компанію", "Відгуки", "Політика конфіденційності", "Договір оферти"];
+---
+<footer class="site-footer">
+  <div class="container">
+    <div class="site-footer__rule" aria-hidden="true"></div>
+    <div class="site-footer__grid">
+      <div class="site-footer__col site-footer__col--write">
+        <h2 class="site-footer__title">Кому писати</h2>
+        <dl class="mails">
+          {emails.map((e) => (
+            <div class="mails__row">
+              <dt>{e.purpose}</dt>
+              <dd><a class="link" href={`mailto:${e.address}`}>{e.address}</a></dd>
+            </div>
+          ))}
+        </dl>
+      </div>
+
+      <div class="site-footer__col">
+        <h2 class="site-footer__title">Телефони</h2>
+        <ul class="site-footer__list">
+          <li><a class="site-footer__phone figure" href={phones.main.href}>{phones.main.label}</a> <span class="site-footer__muted">{phones.main.note}</span></li>
+          {phones.sto.map((p) => (
+            <li><a class="site-footer__phone figure" href={p.href}>{p.label}</a> <span class="site-footer__muted">запис на СТО</span></li>
+          ))}
+        </ul>
+      </div>
+
+      <div class="site-footer__col">
+        <h2 class="site-footer__title">Ми в мережі</h2>
+        <ul class="site-footer__list" data-rec="S-R009,S-R010">
+          {socials.map((s) => (
+            <li><a class="link" href={s.href} target="_blank" rel="noopener">{s.label}<span class="visually-hidden"> (нова вкладка)</span></a></li>
+          ))}
+          <li><a class="link" href={telegram.href} target="_blank" rel="noopener">Telegram-бот для підбору<span class="visually-hidden"> (відкриється в Telegram)</span></a></li>
+        </ul>
+        <ul class="site-footer__list site-footer__future">
+          {future.map((f) => <li><FutureLink>{f}</FutureLink></li>)}
+        </ul>
+      </div>
+    </div>
+
+    <div class="site-footer__base">
+      <img src="logo-dsvavto.svg" alt="DsvAvto" width="349" height="102" class="site-footer__logo" />
+      <p class="site-footer__legal">{legal}</p>
+    </div>
+  </div>
+</footer>
+
+<style>
+  .site-footer { padding-block: var(--space-md) var(--space-2xl); }
+  .site-footer__rule {
+    height: 8px; width: 100%;
+    background: var(--color-brand);
+    clip-path: polygon(0 0, 100% 0, calc(100% - var(--chamfer)) 100%, 0 100%);
+    margin-bottom: var(--space-2xl);
+  }
+  .site-footer__grid { display: grid; gap: var(--space-2xl); }
+  .site-footer__col { display: grid; gap: var(--space-md); align-content: start; }
+  .site-footer__title { font-family: var(--font-body); font-size: var(--text-body); font-weight: var(--weight-bold); max-width: none; }
+  .mails { display: grid; border-top: var(--hairline) solid var(--color-rule); }
+  .mails__row { display: grid; gap: var(--space-3xs); padding-block: var(--space-sm); border-bottom: var(--hairline) solid var(--color-rule); }
+  .mails dt { color: var(--color-text-2); font-size: var(--text-small); }
+  .site-footer__list { display: grid; gap: var(--space-xs); }
+  .site-footer__list li { min-height: var(--tap); display: flex; flex-wrap: wrap; align-items: center; column-gap: var(--space-xs); }
+  .site-footer__phone { font-size: 1.25rem; text-decoration: none; white-space: nowrap; }
+  .site-footer__phone:hover { color: var(--color-accent); }
+  .site-footer__muted { color: var(--color-text-2); font-size: var(--text-small); }
+  .site-footer__future { margin-top: var(--space-md); padding-top: var(--space-md); border-top: var(--hairline) solid var(--color-rule); }
+  .site-footer__base { display: grid; gap: var(--space-md); margin-top: var(--space-3xl); padding-top: var(--space-lg); border-top: var(--hairline) solid var(--color-rule); }
+  .site-footer__logo { height: 32px; width: auto; }
+  .site-footer__legal { font-size: var(--text-small); color: var(--color-text-2); }
+
+  @media (min-width: 48rem) {
+    .mails__row { grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); align-items: baseline; gap: var(--space-md); }
+    .site-footer__base { grid-template-columns: auto minmax(0, 1fr); align-items: center; column-gap: var(--space-xl); }
+    .site-footer__legal { justify-self: end; }
+  }
+  @media (min-width: 64rem) {
+    .site-footer__grid { grid-template-columns: minmax(0, 6fr) minmax(0, 3fr) minmax(0, 3fr); gap: var(--gap-columns); column-gap: var(--space-2xl); }
+  }
+  @media (max-width: 47.99rem) {
+    .site-footer { padding-bottom: calc(var(--space-2xl) + var(--control-h) + var(--space-md)); }
+  }
+</style>

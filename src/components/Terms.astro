@@ -1,0 +1,75 @@
+---
+import FutureLink from "./FutureLink.astro";
+import { phones } from "../data/site";
+---
+<section id="terms" class="section terms" aria-labelledby="terms-title" data-rec="W-R007">
+  <div class="container">
+    <div class="section__head">
+      <h2 id="terms-title">Доставка, оплата, повернення</h2>
+      <p class="section__lede">Умови, які краще знати до замовлення, зокрема що ми не відправляємо.</p>
+    </div>
+
+    <dl class="cells">
+      <div class="cell cell--a">
+        <dt class="cell__key">Нова Пошта по Україні</dt>
+        <dd class="cell__val">Інтайм і Гюнсел за погодженням з менеджером. Кур'єр тільки по Києву. Вартість за тарифами перевізника.</dd>
+      </div>
+      <div class="cell cell--b">
+        <dt class="cell__key">Передоплата</dt>
+        <dd class="cell__val">Відправляємо після повної оплати або передоплати доставки в обидва боки.</dd>
+        <dd class="cell__val cell__val--strong">Кузовні деталі, підкрилки й акумулятори не відправляємо.</dd>
+      </div>
+      <div class="cell cell--c">
+        <dt class="cell__key">Оплата</dt>
+        <dd class="cell__val">Готівка, безготівковий переказ, накладений платіж Нової Пошти, Privat24.</dd>
+      </div>
+      <div class="cell cell--d">
+        <dt class="cell__key">14 днів на повернення</dt>
+        <dd class="cell__val">Від дати замовлення, за попереднім погодженням. Доставка повернення за рахунок покупця.</dd>
+      </div>
+    </dl>
+
+    <div class="terms__foot">
+      <a class="btn" href={phones.main.href} data-rec="W-R005"><span>Уточнити<span class="terms__wide"> замовлення</span>:</span><span class="btn__sub">{phones.main.label}</span></a>
+      <ul class="terms__links">
+        <li><a class="link" href="#sto">Гарантія на деталі: умови на СТО</a></li>
+        <li><FutureLink>Повні умови доставки</FutureLink></li>
+        <li><FutureLink>Гарантія і повернення</FutureLink></li>
+      </ul>
+      <p class="terms__claims">Претензії: <a class="link" href="mailto:claims@dsvavto.ua">claims@dsvavto.ua</a></p>
+    </div>
+  </div>
+</section>
+
+<style>
+  .terms { padding-bottom: 0; }
+  .cells { display: grid; border-top: 2px solid var(--color-text); }
+  .cell { display: grid; gap: var(--space-xs); align-content: start; padding: var(--space-lg) 0; border-bottom: var(--hairline) solid var(--color-rule); }
+  .cell__key { font-family: var(--font-display); font-weight: var(--weight-bold); font-size: var(--text-title); line-height: 1.15; }
+  .cell__val { color: var(--color-text-2); max-width: 46ch; }
+  .cell__val--strong { color: var(--color-text); font-weight: var(--weight-bold); }
+
+  .terms__foot { display: grid; gap: var(--space-lg); margin-top: var(--space-2xl); justify-items: start; }
+  .terms__links { display: flex; flex-wrap: wrap; gap: var(--space-xs) var(--space-lg); }
+  .terms__links li { display: flex; align-items: center; min-height: var(--tap); }
+  .terms__claims { font-size: var(--text-small); color: var(--color-text-2); }
+
+  @media (max-width: 47.99rem) {
+    .terms__foot .btn { width: 100%; }
+    .terms__wide { display: none; }
+  }
+  @media (min-width: 48rem) {
+    .cells { grid-template-columns: repeat(12, minmax(0, 1fr)); column-gap: 0; }
+    .cell--a, .cell--c { padding-right: var(--gap-columns); }
+    .cell { padding: var(--space-xl) 0; }
+    .cell--a { grid-column: span 5; }
+    .cell--b { grid-column: span 7; padding-left: var(--gap-columns); border-left: var(--hairline) solid var(--color-rule); }
+    .cell--c { grid-column: span 7; }
+    .cell--d { grid-column: span 5; padding-left: var(--gap-columns); border-left: var(--hairline) solid var(--color-rule); }
+    .cell--b .cell__key, .cell--d .cell__key { font-size: var(--text-section); }
+  }
+  @media (min-width: 64rem) {
+    .terms__foot { grid-template-columns: auto minmax(0, 1fr); align-items: center; column-gap: var(--space-2xl); }
+    .terms__claims { grid-column: 2; }
+  }
+</style>

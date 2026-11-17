@@ -1,0 +1,42 @@
+---
+// Self-hosted fonts (OFL): Tektur 600 display, Golos Text 400/600 body; latin + cyrillic subsets (і, ї, є, ґ).
+import "@fontsource/tektur/cyrillic-600.css";
+import "@fontsource/tektur/latin-600.css";
+import "@fontsource/golos-text/cyrillic-400.css";
+import "@fontsource/golos-text/latin-400.css";
+import "@fontsource/golos-text/cyrillic-600.css";
+import "@fontsource/golos-text/latin-600.css";
+import tekturCyr from "@fontsource/tektur/files/tektur-cyrillic-600-normal.woff2?url";
+
+interface Props { lang: string; title: string; description: string; canonical?: string; }
+const { lang, title, description, canonical } = Astro.props;
+---
+<!doctype html>
+<html lang={lang}>
+  <head>
+    <meta charset="utf-8" />
+    <script is:inline>document.documentElement.classList.add("js")</script>
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>{title}</title>
+    <meta name="description" content={description} />
+    {canonical && <link rel="canonical" href={canonical} />}
+    <meta property="og:title" content={title} />
+    <meta property="og:description" content={description} />
+    <meta property="og:locale" content="uk_UA" />
+    <meta name="robots" content="noindex" />
+    <link rel="icon" href="favicon.svg" type="image/svg+xml" />
+    <link rel="preload" href={tekturCyr} as="font" type="font/woff2" crossorigin />
+    <slot name="head" />
+    <style is:global>
+      @import "../styles/tokens.css";
+      @import "../styles/global.css";
+    </style>
+  </head>
+  <body id="top">
+    <a class="skip-link" href="#main">{lang.startsWith("uk") ? "До змісту" : lang.startsWith("ru") ? "К содержанию" : "Skip to content"}</a>
+    <slot name="header" />
+    <main id="main" data-rec="W-R009"><slot /></main>
+    <slot name="footer" />
+    <script src="../scripts/reveal.ts"></script>
+  </body>
+</html>

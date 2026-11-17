@@ -1,0 +1,78 @@
+---
+import { stores, phones, telegram } from "../data/site";
+---
+<section id="stores" class="section stores" aria-labelledby="stores-title" data-rec="W-R005,W-R007">
+  <div class="container">
+    <div class="section__head">
+      <h2 id="stores-title">Точки видачі в Києві</h2>
+      <p class="section__lede">Замовлення можна забрати в трьох місцях. Перед приїздом уточніть наявність деталі за телефоном.</p>
+    </div>
+
+    <div class="stores__grid">
+      <ul class="points">
+        {stores.map((s, i) => (
+          <li class:list={["point", { "point--main": i === 0 }]}>
+            <div class="point__body">
+              <p class="point__role">{s.role}</p>
+              <h3 class="point__title">{s.title}</h3>
+              <p class="point__landmark">{s.landmark}</p>
+              <ul class="point__hours tnum" aria-label="Графік">
+                {s.hours.map((h) => <li>{h}</li>)}
+              </ul>
+            </div>
+            <a class="btn btn--quiet point__route" href={s.map} target="_blank" rel="noopener">
+              Прокласти маршрут<span class="visually-hidden">: {s.title} (Google Maps, нова вкладка)</span>
+            </a>
+          </li>
+        ))}
+      </ul>
+
+      <aside class="reach" aria-labelledby="reach-title">
+        <h3 id="reach-title" class="reach__title">Спитати, чи є деталь</h3>
+        <a class="reach__phone figure" href={phones.main.href}>{phones.main.label}</a>
+        <p class="reach__note">{phones.main.note}</p>
+        <a class="btn reach__tg" href={telegram.href} target="_blank" rel="noopener">Написати в Telegram<span class="visually-hidden"> (відкриється в Telegram)</span></a>
+        <p class="reach__mail">Консультації: <a class="link" href="mailto:support@dsvavto.ua">support@dsvavto.ua</a></p>
+      </aside>
+    </div>
+  </div>
+</section>
+
+<style>
+  .stores { padding-top: var(--section-gap-l); }
+  .stores__grid { display: grid; gap: var(--space-2xl); }
+  .points { display: grid; border-top: 2px solid var(--color-text); }
+  .point {
+    display: grid; gap: var(--space-md); align-items: end;
+    padding-block: var(--space-lg);
+    border-bottom: var(--hairline) solid var(--color-rule);
+  }
+  .point__body { display: grid; gap: var(--space-2xs); }
+  .point__role { font-size: var(--text-small); font-weight: var(--weight-bold); color: var(--color-accent); }
+  .point__title { font-size: var(--text-title); line-height: 1.1; max-width: none; }
+  .point--main .point__title { font-size: var(--text-section); }
+  .point__landmark { color: var(--color-text); }
+  .point__hours { display: flex; flex-wrap: wrap; gap: 0 var(--space-md); color: var(--color-text-2); }
+  .point__route { justify-self: start; }
+
+  .reach { display: grid; gap: var(--space-xs); align-content: start; justify-items: start; padding: var(--space-lg); background: var(--color-panel); border-radius: var(--radius); }
+  .reach__title { font-family: var(--font-body); font-size: var(--text-body); font-weight: var(--weight-bold); }
+  .reach__phone { font-size: clamp(1.5rem, 0.6rem + 2.2vw, 3rem); line-height: 1.1; text-decoration: none; white-space: nowrap; }
+  .reach__phone:hover { color: var(--color-accent); }
+  .reach__note { color: var(--color-text-2); }
+  .reach__tg { margin-block: var(--space-md) var(--space-xs); }
+  .reach__mail { font-size: var(--text-small); color: var(--color-text-2); }
+
+  @media (max-width: 47.99rem) {
+    .point__route, .reach__tg { width: 100%; }
+    .reach { padding: var(--space-md); }
+  }
+  @media (min-width: 48rem) {
+    .point { grid-template-columns: minmax(0, 1fr) auto; column-gap: var(--space-xl); }
+    .point--main { padding-block: var(--space-xl); }
+  }
+  @media (min-width: 64rem) {
+    .stores__grid { grid-template-columns: minmax(0, 8fr) minmax(0, 4fr); gap: var(--gap-columns) var(--space-3xl); align-items: start; }
+    .reach { position: sticky; top: calc(var(--header-h) + var(--space-lg)); }
+  }
+</style>

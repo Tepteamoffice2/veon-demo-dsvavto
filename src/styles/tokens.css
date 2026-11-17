@@ -1,0 +1,97 @@
+/* Hallmark · shape: custom, catalogue sheet (schema index, operation card, address rows) · genre: modern-minimal · theme: custom · job: buy / visit · idea: "Від позиції на схемі до точної деталі: сторінка читається як аркуш каталогу запчастин, а підбирає її людина" · vibe: "точний, технічний, світлий, спокійний, фірмово-зелений"
+ * paper: #F1F3EF tracing sheet · accent: #2D6619 work green (brand #418B26 for marks) · display: Tektur 600 · body: Golos Text 400/600 · hero: counter, H1 across the container over a full-width green working strip with tabs and the VIN dimension ruler, Telegram action on the strip · nav: one-line ruler, logo, five anchors, 0 800 set as a figure, Telegram, UA/RU · footer: light sheet under a thick green rule with a chamfered end, who-to-write list, phones, legal line · imagery: none (client has no usable photos; SVG schema with real data, client SVG logo) · signature: the logo's green plate stretched into the VIN working strip with a dimension ruler
+ * axes: light tint/chamfered grotesk/green · posture: committed · contrast: pass · fold: pass (hero ends at 817px on 1440x900, 787px on 1280x800, Telegram action at 540px) · v2.0.0 */
+/* Hallmark · pre-emit critique: P4 H5 E4 S5 R4 V4 · weakest: P, no photographs exist; carried the page with the VIN ruler and the node schema built from the client's own 8 catalogue groups */
+/* Hallmark · waive 23 · the green working strip is ~40% of 1280x800 (was 47.5%) · approved concept.md §5 «Look · posture: Committed», the logo plate stretched into the VIN strip is the signature; the strip is not narrowed by instruction, accent elsewhere stays a signal */
+/* Line 1 of this file is the Hallmark stamp (docs/process/hallmark.md): filled from design/concept.md; waivers go right below it. */
+/* Client design tokens: from design/concept.md (veon-concept: colors, fonts). Palette and type are DsvAvto's own. */
+:root {
+  /* Palette (concept.md, «Палітра (итог)») */
+  --color-bg: #F1F3EF;          /* paper, tracing sheet */
+  --color-panel: #FAFBF8;       /* panels, fields, tooltips */
+  --color-text: #151A16;        /* ink */
+  --color-text-2: #4E574F;      /* secondary text, 6.7:1 */
+  --color-brand: #418B26;       /* logo green: marks, schema, dimension lines, large figures only */
+  --color-accent: #2D6619;      /* work green: primary buttons, links, focus */
+  --color-field: #2D6619;       /* committed posture: the working strip surface (same work green) */
+  --color-dark: #17201A;        /* the one dark field (STO) */
+  --color-line-ui: #7A847A;     /* field edges, outlined buttons, 3.5:1 */
+  /* Derived from the palette (no new hues) */
+  --color-rule: color-mix(in oklab, var(--color-line-ui) 42%, var(--color-bg));
+  --color-on-accent: var(--color-bg);
+  --color-accent-ink: var(--color-on-accent);
+  --color-on-dark: var(--color-bg);
+  --color-on-dark-2: color-mix(in oklab, var(--color-bg) 74%, var(--color-dark));
+  --color-rule-dark: color-mix(in oklab, var(--color-bg) 22%, var(--color-dark));
+  --color-on-accent-2: color-mix(in oklab, var(--color-bg) 84%, var(--color-accent));
+  --color-rule-accent: color-mix(in oklab, var(--color-bg) 40%, var(--color-accent));
+  --color-focus: var(--color-accent);
+  --color-focus-inverse: var(--color-bg);
+
+  /* Type (Tektur 600 display, Golos Text 400/600 body) */
+  --font-display: "Tektur", system-ui, sans-serif;
+  --font-body: "Golos Text", system-ui, sans-serif;
+  --weight-regular: 400;
+  --weight-bold: 600;
+  --text-display: clamp(2rem, 1.106rem + 4.88vw, 5.5rem);    /* 33 at 320, 36 at 375 -> 88 */
+  --text-section: clamp(1.875rem, 1.39rem + 2vw, 3rem);      /* 30 -> 48 */
+  --text-title: clamp(1.375rem, 1.21rem + 0.7vw, 1.75rem);   /* 22 -> 28 */
+  --text-lede: clamp(1.125rem, 1.07rem + 0.23vw, 1.25rem);   /* 18 -> 20 */
+  --text-body: clamp(1rem, 0.97rem + 0.12vw, 1.0625rem);     /* 16 -> 17 */
+  --text-small: 0.875rem;                                     /* 14 */
+  --text-vin: clamp(1.75rem, 1.4rem + 1.4vw, 2.75rem);        /* 28 -> 44 */
+
+  /* Space: 4/8 rhythm */
+  --space-3xs: 2px;
+  --space-2xs: 4px;
+  --space-xs: 8px;
+  --space-sm: 12px;
+  --space-md: 16px;
+  --space-lg: 24px;
+  --space-xl: 32px;
+  --space-2xl: 48px;
+  --space-3xl: 72px;
+  --space-4xl: 120px;
+  --space-5xl: 160px;
+  --gutter: clamp(1.25rem, 0.5rem + 2.6vw, 2.5rem);           /* 20 -> 40 */
+  --gap-columns: 24px;
+  --section-gap: clamp(4rem, 2.6rem + 5.6vw, 7.5rem);         /* 64 -> 120 */
+  --section-gap-l: clamp(6rem, 4rem + 6vw, 10rem);            /* 96 -> 160 */
+  --space: var(--gutter);
+  --container: 1360px;
+
+  /* Shape */
+  --radius: 2px;
+  --chamfer: 14px;          /* the logo plate's slanted edge, buttons */
+  --chamfer-l: 40px;        /* the working strip */
+  --hairline: 1px;
+  --stroke-ui: 1.5px;
+  --control-h: 52px;
+  --header-h: 72px;
+  --tap: 44px;
+
+  /* Motion */
+  --ease-out: cubic-bezier(.2, .7, .2, 1);
+  --ease-in: cubic-bezier(.4, 0, 1, 1);
+  --dur-micro: 120ms;
+  --dur-short: 200ms;
+  --dur-tab: 240ms;
+  --dur-long: 420ms;
+  --dur-draw: 700ms;
+  --dur: 600ms;
+
+  /* Layers */
+  --z-raised: 10;
+  --z-tooltip-local: 20;
+  --z-sticky: 200;
+  --z-nav: 300;
+  --z-menu: 400;
+}
+
+@media (max-width: 47.99rem) {
+  :root {
+    --header-h: 60px;
+    --control-h: 56px;
+    --chamfer-l: 22px;
+  }
+}

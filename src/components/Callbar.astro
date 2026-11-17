@@ -1,0 +1,44 @@
+---
+import { phones, telegram } from "../data/site";
+---
+<div class="callbar" data-callbar data-rec="W-R005">
+  <a class="callbar__btn callbar__btn--call" href={phones.main.href}>Подзвонити<span class="visually-hidden"> безкоштовно: {phones.main.label}</span></a>
+  <a class="callbar__btn callbar__btn--tg" href={telegram.href} target="_blank" rel="noopener">Telegram<span class="visually-hidden"> (відкриється в Telegram)</span></a>
+</div>
+<script is:inline>(function(b){if(b&&window.scrollY<window.innerHeight)b.classList.add("is-hidden")})(document.currentScript&&document.currentScript.previousElementSibling)</script>
+
+<style>
+  .callbar {
+    position: fixed; left: 0; right: 0; bottom: 0; z-index: var(--z-sticky);
+    display: grid; grid-template-columns: 1fr 1fr; gap: var(--space-xs);
+    padding: var(--space-xs) var(--gutter) calc(var(--space-xs) + env(safe-area-inset-bottom, 0px));
+    background: var(--color-bg);
+    border-top: var(--hairline) solid var(--color-rule);
+    transition: transform var(--dur-tab) var(--ease-out);
+  }
+  .callbar.is-hidden { transform: translateY(110%); visibility: hidden; transition: transform var(--dur-tab) var(--ease-in), visibility 0s linear var(--dur-tab); }
+  .callbar__btn {
+    display: inline-flex; align-items: center; justify-content: center;
+    min-height: var(--control-h);
+    border-radius: var(--radius);
+    font-weight: var(--weight-bold); text-decoration: none; white-space: nowrap;
+    transition: transform var(--dur-micro) var(--ease-out), background-color var(--dur-short) var(--ease-out);
+  }
+  .callbar__btn:active { transform: translateY(1px); }
+  .callbar__btn--call { background: var(--color-accent); color: var(--color-on-accent); }
+  .callbar__btn--tg { border: var(--stroke-ui) solid var(--color-text); color: var(--color-text); }
+  .callbar__btn--tg:hover { background: var(--color-panel); }
+  @media (min-width: 48rem) { .callbar { display: none; } }
+  @media (prefers-reduced-motion: reduce) { .callbar, .callbar.is-hidden { transition: none; } }
+</style>
+
+<script>
+  // The bar appears once the hero (with its own call and Telegram buttons) has left the screen.
+  const bar = document.querySelector<HTMLElement>("[data-callbar]");
+  const hero = document.getElementById("hero");
+  if (bar && hero && "IntersectionObserver" in window) {
+    new IntersectionObserver(([e]) => bar.classList.toggle("is-hidden", e.isIntersecting), { threshold: 0 }).observe(hero);
+  } else if (bar) {
+    bar.classList.remove("is-hidden");
+  }
+</script>
